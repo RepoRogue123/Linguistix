@@ -1,0 +1,15 @@
+MFCC= Mel Frequency Cepstral Coefficients
+It’s a feature used in automatic speech and speaker recognition. Essentially, it’s a way to represent the short-term power spectrum of a sound which helps machines understand and process human speech more effectively.
+Just as humans have fingerprints which are unique, MFCC generates a kind of a unique 'fingerprint' for each audio sample.
+
+Parameter      	              Definition	                                                  How It Affects Feature Extraction?
+n_mfcc	                      Number of MFCC coefficients to extract	                      More coefficients capture finer frequency details, but too many may introduce noise
+sr (Sampling Rate)	          Number of samples per second (Hz)	                            Higher sampling rates capture more details but increase computational cost
+n_fft (FFT Window Size)	      Number of samples in each FFT window	                        Larger values improve frequency resolution but reduce time resolution
+hop_length	                  Step size between FFT windows (frames)	                      Smaller values increase time resolution but slow down computation
+
+
+n_mfcc value I have taken as 20 initially. I will experiment with different values too, and document the results but only in the end if time permits.
+sr I am taking at 16000 i.e. 16kHz as it is taken a standard in speech ML Models
+n_fft I am taking to be 2048 
+hop_length as 512.
