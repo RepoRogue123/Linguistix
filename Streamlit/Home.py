@@ -4,8 +4,6 @@ import librosa
 
 st.set_page_config(page_title="Linguistix", page_icon="🎙️", layout="centered")
 
-from naive_bayes import NaiveBayesClassifier
-
 def add_bg_from_local(image_file):
     custom_css = f"""
     <style>
@@ -99,14 +97,6 @@ def style_upload_and_button():
     """
     st.markdown(custom_css, unsafe_allow_html=True)
 
-def load_resources():
-    if 'resources_loaded' not in st.session_state:
-        # Use relative paths for resource loading
-        st.session_state.x_features = np.load("X_lda.npy")
-        st.session_state.lda_eigenvectors = np.load("lda_eigenvectors.npy")
-        st.session_state.y_labels = np.load("y_labels.npy")
-        st.session_state.resources_loaded = True
-
 def process_audio(file):
     import time
     start_time = time.time()
@@ -175,8 +165,6 @@ def main():
     # Add spacing to prevent shifting
     st.write("\n\n")  # Add extra spacing here
 
-    # Load resources
-    load_resources()
 
     #Navigation info
     st.write("\n")
