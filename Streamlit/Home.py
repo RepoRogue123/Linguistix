@@ -4,8 +4,6 @@ import librosa
 
 st.set_page_config(page_title="Linguistix", page_icon="🎙️", layout="centered")
 
-from naive_bayes import NaiveBayesClassifier
-
 def add_bg_from_local(image_file):
     custom_css = f"""
     <style>
@@ -99,35 +97,6 @@ def style_upload_and_button():
     """
     st.markdown(custom_css, unsafe_allow_html=True)
 
-def load_resources():
-    if 'resources_loaded' not in st.session_state:
-        # Use relative paths for resource loading
-        st.session_state.x_features = np.load("X_lda.npy")
-        st.session_state.lda_eigenvectors = np.load("lda_eigenvectors.npy")
-        st.session_state.y_labels = np.load("y_labels.npy")
-        st.session_state.resources_loaded = True
-
-def process_audio(file):
-    import time
-    start_time = time.time()
-
-    y, sr = librosa.load(file, res_type='kaiser_fast')
-    mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=40)
-
-    max_pad_len = 100
-    pad_width = max_pad_len - mfcc.shape[1]
-    if pad_width > 0:
-        mfcc = np.pad(mfcc, pad_width=((0, 0), (0, pad_width)), mode='constant')
-    else:
-        mfcc = mfcc[:, :max_pad_len]
-
-    mfcc_flat = mfcc.flatten().reshape(1, -1)
-    lda_features = np.dot(mfcc_flat, st.session_state.lda_eigenvectors)
-
-    predicted_label = st.session_state.nb_classifier.predict(lda_features)[0]
-    speaker_name = st.session_state.inv_label_map[predicted_label]
-
-    return speaker_name
 
 def main():
     # Hide the sidebar
@@ -175,8 +144,6 @@ def main():
     # Add spacing to prevent shifting
     st.write("\n\n")  # Add extra spacing here
 
-    # Load resources
-    load_resources()
 
     #Navigation info
     st.write("\n")
