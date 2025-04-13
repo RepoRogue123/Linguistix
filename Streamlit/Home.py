@@ -1,6 +1,5 @@
 import streamlit as st
 import numpy as np
-import base64
 import librosa
 
 st.set_page_config(page_title="Linguistix", page_icon="🎙️", layout="centered")
@@ -8,27 +7,21 @@ st.set_page_config(page_title="Linguistix", page_icon="🎙️", layout="centere
 from naive_bayes import NaiveBayesClassifier
 
 def add_bg_from_local(image_file):
-    with open(image_file, "rb") as f:
-        img_data = f.read()
-    b64_img = base64.b64encode(img_data).decode()
     custom_css = f"""
     <style>
-    .stApp {{
-        background-image: url("data:image/png;base64,{b64_img}");
+    .background {{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("{image_file}");
         background-size: cover;
         background-repeat: no-repeat;
-        background-attachment: fixed;
-    }}
-    
-    .stMarkdown, .stText, .stTitle {{
-        color: white !important;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    }}
-    
-    .stSidebar {{
-        background-color: black !important; /* Ensure sidebar is black */
+        z-index: -1;
     }}
     </style>
+    <div class="background"></div>
     """
     st.markdown(custom_css, unsafe_allow_html=True)
 
@@ -146,7 +139,8 @@ def main():
     # Apply custom button hover style
     style_button_hover()
 
-    image_path = "bg3.png"
+    image_path = "https://drive.google.com/uc?id=1HtunsLhRJqCJ8GOakaxIayMmZUZY-hZ7"
+    add_bg_from_local(image_path)
     
     
     # Title and Introduction
