@@ -1,6 +1,5 @@
 import streamlit as st
 import numpy as np
-# import dill as pickle
 import os
 import sys
 import base64
@@ -120,16 +119,6 @@ def load_resources():
         st.session_state.lda_eigenvectors = np.load(os.path.join(current_dir, "lda_eigenvectors.npy"))
         st.session_state.y_labels = np.load(os.path.join(current_dir, "y_labels.npy"))
         
-        # Load the classifier
-        # with open(os.path.join(current_dir, "naive_bayes_model.pkl"), "rb") as f:
-        #     st.session_state.nb_classifier = pickle.load(f)
-        
-        # Load label mapping
-        # with open(os.path.join(current_dir, "label_map.pkl"), "rb") as f:
-        #     label_map = pickle.load(f)
-        #     st.session_state.inv_label_map = {v: k for k, v in label_map.items()}
-        
-
         st.session_state.resources_loaded = True
 
 def process_audio(file):
