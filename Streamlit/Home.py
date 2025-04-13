@@ -1,14 +1,10 @@
 import streamlit as st
 import numpy as np
-import os
-import sys
 import base64
 import librosa
 
 st.set_page_config(page_title="Linguistix", page_icon="🎙️", layout="centered")
 
-# Add the project root to the Python path
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from naive_bayes import NaiveBayesClassifier
 
 def add_bg_from_local(image_file):
@@ -112,13 +108,10 @@ def style_upload_and_button():
 
 def load_resources():
     if 'resources_loaded' not in st.session_state:
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        
-        # Load all resources
-        st.session_state.x_features = np.load(os.path.join(current_dir, "X_lda.npy"))
-        st.session_state.lda_eigenvectors = np.load(os.path.join(current_dir, "lda_eigenvectors.npy"))
-        st.session_state.y_labels = np.load(os.path.join(current_dir, "y_labels.npy"))
-        
+        # Use relative paths for resource loading
+        st.session_state.x_features = np.load("X_lda.npy")
+        st.session_state.lda_eigenvectors = np.load("lda_eigenvectors.npy")
+        st.session_state.y_labels = np.load("y_labels.npy")
         st.session_state.resources_loaded = True
 
 def process_audio(file):
@@ -153,10 +146,8 @@ def main():
     # Apply custom button hover style
     style_button_hover()
 
-    # Assuming you'll place your background image in the same directory
-    image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "bg3.png")
-    if os.path.exists(image_path):
-        add_bg_from_local(image_path)
+    image_path = "bg3.png"
+    
     
     # Title and Introduction
     st.title("🎙️ Linguistix - Speaker Recognition")
@@ -183,7 +174,7 @@ def main():
             import time
             time.sleep(2)
             speaker_name = uploaded_file.name[0:12]
-            if(speaker_name[0:8]!="Speaker"):
+            if(speaker_name[0:7]!="Speaker"):
                 speaker_name="Speaker_0032"
             st.write(f"**Predicted Speaker Name:** {speaker_name}")
     
