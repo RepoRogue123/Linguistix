@@ -178,7 +178,7 @@ def main():
     # Load resources
     load_resources()
 
-    # Navigation info
+    #Navigation info
     st.write("\n")
     st.write("This project is a part of the course CSL2050 - Pattern Recognition and Machine Learning at IIT Jodhpur")
     st.write("GitHub Repository Link: https://github.com/RepoRogue123/Linguistix")
