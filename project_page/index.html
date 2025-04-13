@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <link href="https://fonts.cdnfonts.com/css/chalkduster" rel="stylesheet">
+  <style>
+    @import url('https://fonts.cdnfonts.com/css/chalkduster');
+  </style>
+
+  <title>Linguistix: Speaker Recognition System</title>
+  <link href="style.css" rel="stylesheet" type="text/css">
+  <meta name="description" content="Project page for 'Speaker Recognition System'">
+
+  <title>Linguistix: Speaker Recognition System</title>
+  <link href="style.css" rel="stylesheet" type="text/css">
+  <meta name="description" content="Project page for 'Speaker Recognition System'">
+
+  <meta charset="utf-8">
+  <meta name="description" content="Speaker Recognition System">
+  <meta name="keywords" content="Music Genre, Genre Identification, Music Classification, Speaker Recognition System;">
+  <meta name="author" content="Vyankatesh Deshpande">
+  <title>Linguistix: Speaker Recognition System</title>
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="[PRML 2024] Speaker Recognition System">
+  <meta name="twitter:description" content="[PRML 2024] Speaker Recognition System">
+
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+
+  <link rel="icon" type="image/x-icon" href="/css/favicon.png">
+</head>
+
+<body>
+  <p class="title">Linguistix: Speaker Recognition System</p>
+  <p class="subtitle">CSL2050: Pattern Recognition and Machine Learning</p>
+
+  <p class="author">
+    <span class="author"><a href="https://github.com/VyankateshD206">Vyankatesh Deshpande</a>&nbsp;<sup>1</sup></span>
+    <span class="author"><a href="https://github.com/shashankparchure">Shashank Parchure</a>&nbsp;<sup>1</sup></span>
+    <span class="author"><a href="https://github.com/RepoRogue123">Atharva Honparkhe</a>&nbsp;<sup>1</sup></span>
+    <span class="author"><a href="https://github.com/Abhinashroy">Abhinash Roy</a>&nbsp;<sup>1</sup></span>
+    <span class="author"><a href="https://github.com/namyadhingra">Namya Dhingra</a>&nbsp;<sup>1</sup></span>
+    <span class="author"><a href="https://github.com/damarasingu">Damarasingu Akshaya Sree</a>&nbsp;<sup>1</sup></span>
+  </p>
+
+  <table border="0" align="center" class="affiliations" width="700px">
+    <tbody align="center">
+      <tr>
+        <td style="text-align: center;"><sup>1</sup>IIT Jodhpur</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="menu-container">
+    <a href="https://musicclassifier.streamlit.app/">Web-App</a> |
+    <a href="https://github.com/RepoRogue123/Linguistix">Code</a> |
+    <a href="https://www.kaggle.com/datasets/vjcalling/speaker-recognition-audio-dataset">Dataset</a> |
+    <a href="https://github.com/crgoku7/MusicGenreClassification/blob/main/Report.pdf">Report</a> |
+    <a href="https://youtu.be/QeqPgnr5Q2U">Short Talk</a>
+  </div>
+  <br>
+
+  <p class="section" id="sum"><b>Project Summary</b></p>
+
+  <p style="margin-left: 8%; margin-right: 8%;">
+    Linguistix: Speaker Recognition System explores speaker identification through classical machine learning methods. 
+    The project applies a diverse range of supervised models—including K-Nearest Neighbors, Support Vector Machines, 
+    Decision Trees, Artificial Neural Networks, Multi-layer Perceptron, and Naïve Bayes—as well as unsupervised 
+    techniques such as K-Means clustering and Gaussian Mixture Models (GMM).
+  </p>
+
+  <p style="margin-left: 8%; margin-right: 8%;">
+    To enhance speaker representation and reduce model complexity, dimensionality reduction techniques like Principal 
+    Component Analysis (PCA) and Linear Discriminant Analysis (LDA) are used. Ensemble strategies are also integrated, 
+    including ensemble GMMs for robust likelihood estimation and tree-based ensembles to address overfitting in decision trees.
+  </p>
+
+  <p style="margin-left: 8%; margin-right: 8%;">
+    A detailed experimental pipeline demonstrates that combining classical models with PCA or LDA preprocessing 
+    significantly improves classification accuracy and generalization. Models such as SVM, KNN, ANN, and Bayesian 
+    classifiers consistently yield strong results across multiple test conditions.
+  </p>
+
+  <p style="margin-left: 8%; margin-right: 8%;">
+    The GitHub repository includes the feature extraction pipeline, model training and evaluation scripts, ensemble 
+    implementations, and preprocessed datasets. Contributors and the tech stack used are also provided for transparency 
+    and reproducibility.
+  </p>
+
+  <p style="margin-left: 8%; margin-right: 8%;">
+    In summary, Linguistix presents a thorough and scalable approach to speaker recognition, integrating classical ML 
+    techniques with dimensionality reduction and ensemble learning for improved performance and interpretability.
+  </p>
+
+  <p class="section"><b>Performance Summary of Various Models</b></p>
+  <table border="1" align="center" style="width: 90%; margin: 20px auto; border-collapse: collapse; text-align: center;">
+    <thead>
+      <tr>
+        <th>Model</th>
+        <th>Train Acc (%)</th>
+        <th>Validation Acc (%)</th>
+        <th>Test Acc (%)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>KNN (With LDA)</td><td>99.89</td><td>100.00</td><td>99.80</td></tr>
+      <tr><td>KNN (With PCA)</td><td>89.58</td><td>76.98</td><td>79.08</td></tr>
+      <tr><td>KNN (Entire Dataset)</td><td>98.27</td><td>95.22</td><td>94.63</td></tr>
+      <tr><td>SVM (With FS)</td><td>98.95</td><td>99.24</td><td>100.00</td></tr>
+      <tr><td>SVM (With PCA)</td><td>98.12</td><td>99.21</td><td>99.40</td></tr>
+      <tr><td>SVM (With LDA)</td><td>91.43</td><td>97.78</td><td>95.56</td></tr>
+      <tr><td>Bayesian Learning (Entire Dataset)</td><td>95.96</td><td>75.00</td><td>74.70</td></tr>
+      <tr><td>Bayesian Learning (With FS)</td><td>96.87</td><td>79.76</td><td>82.27</td></tr>
+      <tr><td>Bayesian Learning (With LDA)</td><td>99.89</td><td>100.00</td><td>99.80</td></tr>
+      <tr><td>Bayesian Learning (With PCA)</td><td>52.49</td><td>50.25</td><td>48.11</td></tr>
+      <tr><td>Decision Tree (Entire Dataset)</td><td>100.00</td><td>63.35</td><td>61.43</td></tr>
+      <tr><td>Decision Tree (With PCA)</td><td>100.00</td><td>14.34</td><td>14.12</td></tr>
+      <tr><td>Decision Tree (With LDA)</td><td>100.00</td><td>14.34</td><td>14.12</td></tr>
+      <tr><td>Decision Tree (With PCA + LDA)</td><td>100.00</td><td>63.35</td><td>61.43</td></tr>
+      <tr><td>Decision Tree (With LDA + t-SNE)</td><td>99.60</td><td>1.86</td><td>1.59</td></tr>
+      <tr><td>Decision Tree (With LDA + UMAP)</td><td>99.94</td><td>84.88</td><td>88.59</td></tr>
+      <tr><td>Decision Tree (With t-SNE)</td><td>15.77</td><td>1.86</td><td>2.65</td></tr>
+      <tr><td>Decision Tree (With UMAP)</td><td>16.51</td><td>11.41</td><td>12.20</td></tr>
+      <tr><td>Decision Tree (Raw Features)</td><td>16.79</td><td>8.22</td><td>10.61</td></tr>
+      <tr><td>AdaBoost</td><td>20.78</td><td>18.92</td><td>19.28</td></tr>
+      <tr><td>SAMME</td><td>7.37</td><td>7.17</td><td>7.16</td></tr>
+      <tr><td>Bagging</td><td>100.00</td><td>81.08</td><td>82.70</td></tr>
+      <tr><td>K-Means (With LDA)</td><td>88.61</td><td>92.61</td><td>87.67</td></tr>
+      <tr><td>K-Means (With LDA + PCA)</td><td>91.03</td><td>94.03</td><td>87.67</td></tr>
+      <tr><td>K-Means (Raw Features)</td><td>8.68</td><td>9.09</td><td>37.27</td></tr>
+      <tr><td>ANN (With FS)</td><td>99.72</td><td>80.79</td><td>82.42</td></tr>
+      <tr><td>ANN (With PCA)</td><td>88.75</td><td>80.23</td><td>72.17</td></tr>
+      <tr><td>CNN (Raw Features)</td><td>96.20</td><td>89.80</td><td>91.85</td></tr>
+      <tr><td>CNN (With LDA)</td><td>99.88</td><td>99.75</td><td>99.80</td></tr>
+      <tr><td>CNN (With PCA)</td><td>97.32</td><td>54.48</td><td>59.84</td></tr>
+      <tr><td>CNN (With LDA + PCA)</td><td>100.00</td><td>99.75</td><td>99.80</td></tr>
+    </tbody>
+  </table>
+
+  <!-- <p class="section"><b>Top 3 Best Models</b></p> -->
+  <div style="text-align: center;">
+    <img src="models.png" alt="Top 3 Models" style="width: 90%; max-width: 800px; margin: 20px auto; border: 1px solid #ddd; border-radius: 10px;">
+  </div>
+
+  <br>
+
+  <p class="section"><b>Interactive Web-App</b></p>
+  <object type="text/html" data="https://musicclassifier.streamlit.app/?embed=true"
+    style="width: 80%; height: 600px;"></object>
+
+  <p class="section"><b>Short Talk</b></p>
+  <centre>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/QeqPgnr5Q2U?si=zt03iT7ru5iKSuFs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </centre>
+
+  <div class="responsive-container-block container">
+    <p class="section">
+      <b>Our Team</b>
+    </p>
+    <div class="responsive-container-block">
+      <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
+        <div class="card">
+          <div class="team-image-wrapper">
+            <img class="team-member-image"
+              src="https://media.licdn.com/dms/image/v2/D4D03AQGpSRN9VLRJYw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1720092204445?e=1749686400&v=beta&t=mYXEyur4YG-yO-pisXfsbvzs3-KNTqTHj8OcoKkm1BM">
+          </div>
+          <p class="text-blk name">
+            Vyankatesh Deshpande
+          </p>
+          <p class="text-blk position">
+            B23CS1079
+          </p>
+
+          <div class="social-icons">
+            <a href="https://www.github.com/VyankateshD206" target="_blank">
+              <img class="github-icon" src="https://img.icons8.com/?size=30&id=62856&format=png">
+            </a>
+            <a href="https://www.linkedin.com/in/vyankatesh-deshpande/"
+              target="_blank">
+              <img class="linkedin-icon" src="https://img.icons8.com/?size=30&id=98960&format=png">
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
+        <div class="card">
+          <div class="team-image-wrapper">
+            <img class="team-member-image"
+              src="https://media.licdn.com/dms/image/v2/D5603AQGoCnzhF9MMCg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1696987082248?e=1749686400&v=beta&t=KQ5ij6a8koamTRwVe_19mAJZ9YZczWfjiVJJFmuRW8o">
+          </div>
+          <p class="text-blk name">
+            Shashank Parchure
+          </p>
+          <p class="text-blk position">
+            B23CM1059
+          </p>
+
+          <div class="social-icons">
+            <a href="https://www.github.com/shashankparchure" target="_blank">
+              <img class="github-icon" src="https://img.icons8.com/?size=30&id=62856&format=png">
+            </a>
+            <a href="https://www.linkedin.com/in/shashank-parchure-360bb6a7/"
+              target="_blank">
+              <img class="linkedin-icon" src="https://img.icons8.com/?size=30&id=98960&format=png">
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
+        <div class="card">
+          <div class="team-image-wrapper">
+            <img class="team-member-image"
+              src="https://media.licdn.com/dms/image/v2/D4E03AQGre2EbFPsv4Q/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1709397301251?e=1749686400&v=beta&t=B9sj9PKR0Y3YmZQq6C5qBw1nVkl2rqs8xaRL8QD31q0">
+          </div>
+          <p class="text-blk name">
+            Atharva Honparkhe
+          </p>
+          <p class="text-blk position">
+            B23EE1006
+          </p>
+
+          <div class="social-icons">
+            <a href="https://www.github.com/RepoRogue123" target="_blank">
+              <img class="github-icon" src="https://img.icons8.com/?size=30&id=62856&format=png">
+            </a>
+            <a href="https://www.linkedin.com/in/atharva-honparkhe-6ba05a2aa/"
+              target="_blank">
+              <img class="linkedin-icon" src="https://img.icons8.com/?size=30&id=98960&format=png">
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
+        <div class="card">
+          <div class="team-image-wrapper">
+            <img class="team-member-image"
+              src="https://media.licdn.com/dms/image/v2/D4E03AQGhIIZfTBIKDQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1709187284822?e=1749686400&v=beta&t=xZMv4u3NJc0E8q3--SvtwX1rVh6-wkTFgPEHA8z7PT8">
+          </div>
+          <p class="text-blk name">
+            Abhinash Roy
+          </p>
+          <p class="text-blk position">
+            B23CS1003
+          </p>
+
+          <div class="social-icons">
+            <a href="https://www.github.com/Abhinashroy" target="_blank">
+              <img class="github-icon" src="https://img.icons8.com/?size=30&id=62856&format=png">
+            </a>
+            <a href="https://www.linkedin.com/in/abhinash-roy-b410282a5/"
+              target="_blank">
+              <img class="linkedin-icon" src="https://img.icons8.com/?size=30&id=98960&format=png">
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
+        <div class="card">
+          <div class="team-image-wrapper">
+            <img class="team-member-image"
+              src="https://media.licdn.com/dms/image/v2/D5603AQFAswtuOYGZ4A/profile-displayphoto-shrink_800_800/B56ZQhA.CdH0Ac-/0/1735720739535?e=1749686400&v=beta&t=U0iQBGQ2hyqvPJrVBsE-zgov9ItyekfxVriA449ci4M">
+          </div>
+          <p class="text-blk name">
+            Namya Dhingra
+          </p>
+          <p class="text-blk position">
+            B23CS1040
+          </p>
+
+          <div class="social-icons">
+            <a href="https://www.github.com/namyadhingra" target="_blank">
+              <img class="github-icon" src="https://img.icons8.com/?size=30&id=62856&format=png">
+            </a>
+            <a href="https://www.linkedin.com/in/namyadhingra/"
+              target="_blank">
+              <img class="linkedin-icon" src="https://img.icons8.com/?size=30&id=98960&format=png">
+
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
+        <div class="card">
+          <div class="team-image-wrapper">
+            <img class="team-member-image"
+              src="https://media.licdn.com/dms/image/v2/D5603AQETo9LhZy1UBw/profile-displayphoto-shrink_800_800/B56ZYV4e_kHQAc-/0/1744123862906?e=1749686400&v=beta&t=y-vTXmBADHVCZ4gl79BV10GS3xmEYVV_C1rMDD9LoVE">
+          </div>
+          <p class="text-blk name">
+            Damarasingu Akshaya Sree
+          </p>
+          <p class="text-blk position">
+            B23EE1085
+          </p>
+
+          <div class="social-icons">
+            <a href="https://www.github.com/damarasingu" target="_blank">
+              <img class="github-icon" src="https://img.icons8.com/?size=30&id=62856&format=png">
+            </a>
+            <a href="https://www.linkedin.com/in/akshaya-sree-984260319"
+              target="_blank">
+              <img class="linkedin-icon" src="https://img.icons8.com/?size=30&id=98960&format=png">
+            </a>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+  <p class="section"></p>
+  <p class="section"></p>
+
+  <div class="ack">
+    <p class="section" id="ack"><b>Acknowledgment</b></p>
+    We would like to express our heartfelt appreciation to Dr. Anand Mishra for granting us the privilege to contribute to this project.
+  </div>
+
+  <div class="contact">
+    <p class="section" id="related-paper"><b>Contact</b></p>
+    For any queries, please contact <a href="https://www.github.com/VyankateshD206" target="_blank">Vyankatesh Deshpande</a> or raise
+    an issue on <a class="publink" href="https://github.com/RepoRogue123/Linguistix" target="_blank"
+      style="text-decoration: none">GitHub</a>.
+  </div>
+  <p class="section"></p>
+
+  <script>
+    function prompt_on(prompt_element) {
+      prompt_element.classList.add("caption-active");
+    }
+
+    function prompt_off(prompt_element) {
+      prompt_element.classList.remove("caption-active");
+    }
+
+    function toggle_prompt(active_prompt_id, inactive_prompt_ids, result_id) {
+      let active_prompt = document.getElementById(active_prompt_id);
+      prompt_on(active_prompt);
+      for (let i = 0; inactive_prompt_ids.length; i++) {
+        let inactive_prompt = document.getElementById(inactive_prompt_ids[i]);
+        prompt_off(inactive_prompt);
+      }
+
+      let result = document.getElementById(result_id);
+      result.src = file_paths[active_prompt_id];
+    }
+  </script>
+
+  <script src="js/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+  <script src="js/popper.min.js" crossorigin="anonymous"></script>
+
+  </div>
+  </div>
+</body>
+
+</html>
