@@ -4,10 +4,19 @@
 
 {% block content %}
 <div class="container py-5">
-    <h1 class="mb-4">Model Architecture & Performance</h1>
+    <section class="page-hero reveal mb-4">
+        <p class="hero-kicker">Model Intelligence</p>
+        <h1 class="mb-3">Model Architecture & Performance</h1>
+        <p class="lead mb-0">A closer look at architecture choices, training profile, and real deployment behavior.</p>
+        <div class="hero-micro-stats mt-3">
+            <div class="micro-stat"><span>50</span> Speakers</div>
+            <div class="micro-stat"><span>4000</span> Input features</div>
+            <div class="micro-stat"><span>89.04%</span> Val accuracy</div>
+        </div>
+    </section>
     
     <!-- Model Overview -->
-    <div class="card shadow-sm mb-4">
+    <div class="card shadow-sm mb-4 reveal tilt-card">
         <div class="card-body">
             <h2 class="card-title">Overview</h2>
             <p class="card-text">
@@ -18,31 +27,31 @@
     </div>
     
     <!-- Architecture Details -->
-    <div class="card shadow-sm mb-4">
+    <div class="card shadow-sm mb-4 reveal delay-100">
         <div class="card-body">
             <h2 class="card-title">Architecture Details</h2>
             <div class="row">
                 <div class="col-lg-6">
-                    <h5 class="mt-3">Neural Network Architecture</h5>
+                    <h5 class="mt-3 reveal">Neural Network Architecture</h5>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Input Layer: 49 neurons (LDA features)</li>
-                        <li class="list-group-item">Hidden Layer 1: 128 neurons with Sigmoid activation</li>
-                        <li class="list-group-item">Hidden Layer 2: 128 neurons with Sigmoid activation</li>
-                        <li class="list-group-item">Output Layer: 50 neurons (one per speaker)</li>
+                        <li class="list-group-item reveal">Input Layer: 4000 neurons (flattened MFCC vector)</li>
+                        <li class="list-group-item reveal delay-100">Hidden Layer 1: 128 neurons with ReLU activation</li>
+                        <li class="list-group-item reveal delay-200">Hidden Layer 2: 128 neurons with ReLU activation</li>
+                        <li class="list-group-item reveal delay-300">Output Layer: 50 neurons (one per speaker)</li>
                     </ul>
                     
-                    <h5 class="mt-3">Training Details</h5>
+                    <h5 class="mt-3 reveal">Training Details</h5>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Optimizer: Adam</li>
-                        <li class="list-group-item">Loss Function: Cross Entropy Loss</li>
-                        <li class="list-group-item">Learning Rate: 0.001</li>
-                        <li class="list-group-item">Batch Size: 32</li>
-                        <li class="list-group-item">Epochs: 50</li>
+                        <li class="list-group-item reveal">Optimizer: Adam + ReduceLROnPlateau</li>
+                        <li class="list-group-item reveal delay-100">Loss Function: Cross Entropy Loss</li>
+                        <li class="list-group-item reveal delay-200">Learning Rate: 0.001 (scheduled)</li>
+                        <li class="list-group-item reveal delay-300">Batch Size: 64</li>
+                        <li class="list-group-item reveal delay-400">Early Stopping: Enabled</li>
                     </ul>
                 </div>
                 
                 <div class="col-lg-6">
-                    <div class="card">
+                    <div class="card tilt-card reveal delay-200">
                         <div class="card-body">
                             <h5 class="card-title">Performance Metrics</h5>
                             
@@ -57,16 +66,16 @@
                             <div class="mb-3">
                                 <label class="form-label">Validation Accuracy</label>
                                 <div class="progress" style="height: 20px;">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;" 
-                                        aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100.00%</div>
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 89.04%;" 
+                                        aria-valuenow="89.04" aria-valuemin="0" aria-valuemax="100">89.04%</div>
                                 </div>
                             </div>
                             
                             <div class="mb-3">
                                 <label class="form-label">Test Accuracy</label>
                                 <div class="progress" style="height: 20px;">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 100%;" 
-                                        aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100.00%</div>
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: 90.48%;" 
+                                        aria-valuenow="90.48" aria-valuemin="0" aria-valuemax="100">90.48%</div>
                                 </div>
                             </div>
                             
@@ -82,18 +91,17 @@
     </div>
     
     <!-- Features Extraction -->
-    <div class="card shadow-sm mb-4">
+    <div class="card shadow-sm mb-4 reveal delay-200 tilt-card">
         <div class="card-body">
             <h2 class="card-title">Feature Extraction</h2>
             <p class="card-text">
-                Our system extracts 17 audio features from each voice sample:
+                Our system extracts a fixed 4000-dimensional representation from each voice sample:
             </p>
             <ul>
-                <li>13 Mel-frequency cepstral coefficients (MFCCs)</li>
-                <li>Spectral centroid</li>
-                <li>Spectral bandwidth</li>
-                <li>Spectral rolloff</li>
-                <li>Zero crossing rate</li>
+                <li>40 Mel-frequency cepstral coefficients (MFCCs) per frame</li>
+                <li>Frame alignment with truncation/padding for consistent length</li>
+                <li>Flattening to a stable 4000-value vector</li>
+                <li>Training-stat standardization (mean/std artifacts)</li>
             </ul>
             <p class="card-text">
                 These features capture key characteristics of a person's voice, creating a unique "fingerprint"
@@ -103,7 +111,7 @@
     </div>
     
     <!-- Limitations -->
-    <div class="card shadow-sm">
+    <div class="card shadow-sm reveal delay-300">
         <div class="card-body">
             <h2 class="card-title">Limitations & Future Work</h2>
             <p class="card-text">

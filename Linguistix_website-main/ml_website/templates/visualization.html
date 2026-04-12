@@ -15,11 +15,15 @@
 
 {% block content %}
 <section class="mb-5">
-    <h1 class="mb-4">Model Visualizations</h1>
+    <div class="page-hero reveal mb-4">
+        <p class="hero-kicker">Insight Canvas</p>
+        <h1 class="mb-3">Model Visualizations</h1>
+        <p class="lead mb-0">Interactive training curves and feature behavior rendered in a live analytics style.</p>
+    </div>
     
     <div class="row">
         <div class="col-md-6 mb-4">
-            <div class="card shadow-sm h-100">
+            <div class="card shadow-sm h-100 reveal tilt-card">
                 <div class="card-body">
                     <h5 class="card-title">Training Accuracy</h5>
                     <div class="chart-container">
@@ -30,7 +34,7 @@
         </div>
         
         <div class="col-md-6 mb-4">
-            <div class="card shadow-sm h-100">
+            <div class="card shadow-sm h-100 reveal delay-100 tilt-card">
                 <div class="card-body">
                     <h5 class="card-title">Loss Curve</h5>
                     <div class="chart-container">
@@ -43,7 +47,7 @@
     
     <div class="row">
         <div class="col-md-12 mb-4">
-            <div class="card shadow-sm">
+            <div class="card shadow-sm reveal delay-200">
                 <div class="card-body">
                     <h5 class="card-title">Feature Importance</h5>
                     <div class="chart-container">

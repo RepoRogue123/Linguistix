@@ -3,9 +3,12 @@
 {% block title %}ML Model Showcase - About{% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="row reveal">
     <div class="col-lg-8 mx-auto text-center">
-        <h1 class="display-4 gradient-text mb-4">About This Project</h1>
+        <div class="page-hero">
+            <p class="hero-kicker">Behind The Model</p>
+            <h1 class="display-4 gradient-text mb-4">About This Project</h1>
+        </div>
         <p class="lead">
             Learn more about this neural network model showcase project and its development.
         </p>
@@ -14,28 +17,28 @@
 
 <div class="row mt-5">
     <div class="col-lg-6">
-        <div class="card shadow border-0 mb-4">
+        <div class="card shadow border-0 mb-4 reveal tilt-card">
             <div class="card-header bg-primary text-white">
                 <h2 class="h4 mb-0">Project Overview</h2>
             </div>
             <div class="card-body">
-                <p>This website demonstrates a neural network model trained on LDA (Linear Discriminant Analysis) features for classification tasks. The model achieves exceptional accuracy using a combination of ReLU and Tanh activation functions.</p>
+                <p>This website demonstrates a production-style speaker recognition model trained on MFCC-derived voice features. The backend performs real PyTorch inference using exported weights and normalization artifacts.</p>
                 
                 <p>The neural network architecture consists of:</p>
                 <ul>
-                    <li>An input layer accepting LDA features</li>
+                    <li>An input layer accepting a 4000-dimensional MFCC feature vector</li>
                     <li>Two hidden layers with 128 neurons each</li>
-                    <li>Different activation functions to optimize performance</li>
+                    <li>ReLU activations and regularized optimization</li>
                     <li>An output layer with 50 classes</li>
                 </ul>
                 
-                <p>The model was trained for 50 epochs using the Adam optimizer and Cross-Entropy loss function, achieving 100% validation and test accuracy.</p>
+                <p>The model is trained with validation monitoring, learning-rate scheduling, and early stopping to improve generalization under real-world audio variability.</p>
             </div>
         </div>
     </div>
     
     <div class="col-lg-6">
-        <div class="card shadow border-0 mb-4">
+        <div class="card shadow border-0 mb-4 reveal delay-100 tilt-card">
             <div class="card-header bg-success text-white">
                 <h2 class="h4 mb-0">Technologies Used</h2>
             </div>
@@ -115,7 +118,7 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card shadow border-0">
+        <div class="card shadow border-0 reveal delay-200">
             <div class="card-header bg-dark text-white">
                 <h2 class="h4 mb-0">Methodology & Implementation</h2>
             </div>
@@ -123,25 +126,25 @@
                 <div class="row">
                     <div class="col-md-6">
                         <h3 class="h5">Data Preprocessing</h3>
-                        <p>The raw data underwent Linear Discriminant Analysis (LDA) for dimensionality reduction before being fed into the neural network. The LDA features were standardized using mean and standard deviation normalization to improve model convergence.</p>
+                        <p>The raw audio is transformed into MFCC frame matrices, then flattened into a fixed-length vector so every sample matches the same model input shape. Features are standardized with saved training mean/std values for consistent inference.</p>
                         
                         <div class="alert alert-info">
-                            <strong>Dataset Split:</strong> 70% training, 20% testing, 10% validation
+                            <strong>Evaluation Strategy:</strong> separated train, validation, and held-out test sets
                         </div>
                         
                         <h3 class="h5 mt-4">Training Process</h3>
-                        <p>The model was trained for 50 epochs with a batch size of 32. The Adam optimizer with a learning rate of 0.001 was used to minimize the Cross-Entropy loss. Training data was shuffled for each epoch to prevent overfitting and improve generalization.</p>
+                        <p>Training uses Adam with Cross-Entropy loss, adaptive learning-rate reduction on plateaus, and early stopping. This keeps convergence stable while reducing overfitting as epochs progress.</p>
                     </div>
                     <div class="col-md-6">
-                        <h3 class="h5">Activation Function Comparison</h3>
-                        <p>Three different activation function configurations were tested:</p>
+                        <h3 class="h5">Inference Decision Layer</h3>
+                        <p>Beyond top-1 classification, the system adds confidence-aware logic:</p>
                         <ol>
-                            <li><strong>Sigmoid:</strong> Traditional S-shaped function that maps values between 0 and 1.</li>
-                            <li><strong>Tanh:</strong> Similar to sigmoid but maps values between -1 and 1, often providing faster convergence.</li>
-                            <li><strong>ReLU + Tanh:</strong> Using ReLU in the first hidden layer and Tanh in the second layer to combine the benefits of both functions.</li>
+                            <li><strong>Top-k probabilities:</strong> returns the strongest speaker candidates for transparency.</li>
+                            <li><strong>Margin checking:</strong> compares top-1 and top-2 confidence to avoid ambiguous matches.</li>
+                            <li><strong>Unknown gating:</strong> flags uncertain audio as unknown instead of forcing a false identity.</li>
                         </ol>
                         
-                        <p>Our experiments showed that the combination of ReLU and Tanh provided the best performance, reaching 100% validation accuracy after only 11 epochs.</p>
+                        <p>This decision layer improves trustworthiness by preferring calibrated uncertainty over overconfident misclassification.</p>
                     </div>
                 </div>
             </div>
@@ -149,7 +152,7 @@
     </div>
 </div>
 
-<div class="row mt-4">
+<div class="row mt-4 reveal delay-300">
     <div class="col-12 text-center">
         <p class="mb-0">This website was created as a demonstration of neural network classification techniques.</p>
         <p>For more information or to contribute to the project, please contact us.</p>

@@ -1,1 +1,6 @@
 .vercel
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+ml_website/uploads/
