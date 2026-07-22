@@ -1,10 +1,34 @@
+# Node modules must never enter the build context. `COPY frontend/ ./` runs
+# after `npm ci`, so a host node_modules would overwrite the container's with
+# platform-specific binaries (esbuild, rollup) compiled for the wrong OS, and
+# the build then fails at `npm run build`.
+node_modules/
+frontend/node_modules/
+
+# Build output. The frontend stage produces this itself; a stale host copy
+# would arrive via `COPY ml_website/` only to be overwritten one layer later,
+# so it is 27 MB of pure context weight.
+ml_website/static/dist/
+frontend/dist/
+
+# Runtime state, not source. The container points LINGUISTIX_GALLERY_DB at
+# /tmp, so a baked-in database would sit unused while shipping local enrolments.
+ml_website/models/gallery.sqlite3
+
+# Written by training/build_gallery.py and never read at serve time.
+ml_website/models/embeddings.npz
+
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .venv/
 venv/
+
+# Not needed to build or serve
 .git/
 .gitignore
 .vercel/
 ml_website/uploads/
+archive/

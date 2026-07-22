@@ -1,0 +1,14 @@
+{
+  "created": "2026-07-20T19:41:17+00:00",
+  "sample_rate": 16000,
+  "embedding_dim": 192,
+  "input": "raw mono float32 PCM at 16 kHz, any length; mel front-end is inside the graph",
+  "output": "L2-normalized embedding; cosine similarity is a plain dot product",
+  "cosine_threshold": 0.3912886381149292,
+  "heldout_eer": 10.150000000000002,
+  "heldout_min_dcf": 0.7894999999999999,
+  "trained_epoch": 32,
+  "train_speakers": 40,
+  "size_mb": 8.94,
+  "max_parity_drift": 1.7777085304260254e-05
+}

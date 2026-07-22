@@ -1,168 +1,148 @@
-# 🎙️ Linguistix: Speaker Recognition System
+# Linguistix — Speaker Recognition
 
-**CSL2050 - Pattern Recognition and Machine Learning Project**  
-_Indian Institute of Technology, Jodhpur_
+**CSL2050 · Pattern Recognition and Machine Learning · Indian Institute of Technology Jodhpur**
 
-## 👥 Team Members
-- Shashank Parchure (B23CM1059)  
-- Atharva Honparkhe (B23EE1006)  
-- Vyankatesh Deshpande (B23CS1079)  
-- Abhinash Roy (B23CS1003)  
-- Namya Dhingra (B23CS1040)  
-- Damarasingu Akshaya Sree (B23EE1085)
+Identify who is speaking from a few seconds of audio. The system recognizes 50 dataset speakers and
+anyone you enrol at runtime, with no retraining.
 
-## 📌 Abstract
+## Team
 
-**Linguistix** is a speaker recognition system that applies classical ML techniques to identify speakers from voice samples. It explores a wide range of models including KNN, SVM, Decision Trees, ANN, Naïve Bayes, GMMs, and K-Means. Dimensionality reduction (PCA, LDA) and ensemble learning methods (Bagging, Boosting, Stacking) are integrated for performance optimization.
-
-> 🧠 **Key Insight**: Supervised dimensionality reduction (especially LDA) significantly boosts the accuracy and generalization of traditional ML models in speaker recognition.
+Shashank Parchure (B23CM1059) · Atharva Honparkhe (B23EE1006) · Vyankatesh Deshpande (B23CS1079) ·
+Abhinash Roy (B23CS1003) · Namya Dhingra (B23CS1040) · Damarasingu Akshaya Sree (B23EE1085)
 
 ---
 
-## 📂 Dataset
+## What this is
 
-- **Source**: [Kaggle Dataset](https://www.kaggle.com/datasets/vjcalling/speaker-recognition-audio-dataset)
-- **Samples**: 2511 `.wav` files
-- **Speakers**: 50 unique identities
-- **Feature Extraction**: MFCCs → 4000-dimensional vectors per sample
+Two systems, evaluated separately because they answer different questions.
 
----
+**The classical benchmark** compares KNN, SVM, Naive Bayes, decision trees, ensembles, K-Means and
+GMMs across PCA, LDA, and PCA→LDA representations. Closed-set: every model must name one of the 50.
 
-## 🛠️ Tech Stack
-
-- **Language**: Python 3.10
-- **Libraries**: `librosa`, `numpy`, `scikit-learn`, `pandas`, `PyTorch`, `matplotlib`
-- **Environment**: Jupyter Notebooks
-- **Cloud Deployment**: Google Cloud VM (4GB RAM, 25GB Disk)
+**The speaker encoder** is an ECAPA-TDNN-style network (2.05M parameters) trained with additive
+angular margin loss. It maps a voice to a 192-dimension embedding, so identification is a
+nearest-neighbour search against a gallery and enrolling a new speaker costs one forward pass.
+Open-set: it can also decline to answer.
 
 ---
 
-## 🧪 Models Implemented
+## Results
 
-### 🔹 Supervised Classifiers
-- **K-Nearest Neighbors (KNN)**
-- **Support Vector Machines (SVM)**
-- **Decision Trees**
-- **Naïve Bayes**
-- **Multi-Layer Perceptrons (MLP)**
-- **Artificial Neural Networks (ANN)**
+### Classical models
 
-### 🔹 Clustering Techniques
-- **K-Means**
-- **Gaussian Mixture Models (GMM)**
+Dimensionality reduction fitted inside the training fold only, stratified 70/20/10 split,
+2511 clips across 50 speakers.
 
-### 🔹 Ensembles
-- **Bagging**
-- **AdaBoost & Improved AdaBoost (SAMME)**
-- **Stacking (SVM + GMM + RF)**
+| Model | Representation | Test accuracy | Macro F1 |
+|---|---|---:|---:|
+| Random Forest | PCA→LDA | **92.71%** | 91.52 |
+| SVM (RBF) | PCA→LDA | 91.09% | 89.75 |
+| Gaussian Naive Bayes | PCA→LDA | 90.69% | 88.91 |
+| SVM (RBF) | PCA | 88.66% | 88.29 |
+| Decision Tree + Bagging | PCA→LDA | 87.45% | 87.01 |
+| KNN | PCA→LDA | 85.02% | 85.20 |
+| AdaBoost (SAMME) | PCA→LDA | 82.19% | 81.89 |
+| Random Forest | PCA | 81.38% | 79.25 |
+| KNN | PCA | 52.63% | 48.99 |
 
-### 🔹 Dimensionality Reduction
-- **PCA**
-- **LDA**
-- **t-SNE & UMAP (for visualization)**
+Clustering, scored by purity: K-Means + PCA→LDA 85.02%, GMM + PCA→LDA 84.21%.
 
----
+Macro F1 is worth reading alongside accuracy: clips per speaker range from 10 to 120, so a model can
+look respectable on accuracy while failing the speakers with the least data.
 
-## 📊 Key Results (Test Accuracy)
+### Speaker encoder, evaluated open-set
 
-| Model                          | Test Accuracy (%) |
-|-------------------------------|--------------|
-| **ANN with LDA**              | **100.00**   |
-| **KNN with LDA**              | 99.80        |
-| **Bayesian with LDA**         | 99.80        |
-| **SVM with PCA**              | 99.40        |
-| **GMM (Semi-supervised)**     | 99.67        |
-| **CNN with LDA + PCA**        | 99.80        |
-| **Decision Tree + Bagging**   | 82.70        |
-| **K-Means with LDA + PCA**    | 87.67        |
+| Metric | Value |
+|---|---|
+| Equal error rate, speakers **never seen in training** | **10.15%** |
+| minDCF (p_target = 0.01) | 0.70 |
+| Embedding dimension | 192 |
+| Parameters | 2.05M |
+| Calibrated acceptance threshold | 0.391 cosine |
 
----
-
-## 📌 Key Observations
-
-- **LDA > PCA**: LDA consistently performed better across models due to class-separability.
-- **GMM + Supervision**: Semi-supervised GMMs delivered the best clustering results.
-- **ANN + LDA**: Delivered perfect classification across all splits.
-- **Ensemble Methods**: Bagging and AdaBoost helped reduce overfitting in tree-based models.
+Trained on 40 speakers, evaluated on 10 withheld entirely. This number is **not** comparable to the
+closed-set accuracies above — it answers the harder question of whether a voice the model has never
+heard can still be enrolled and recognized.
 
 ---
 
-## 🌐 Live Demo & Resources
+## Running it
 
-- 🔗 [**GitHub Repository**](https://github.com/RepoRogue123/Linguistix)  
-- 🎥 [**Spotlight Video**](https://youtu.be/yORB3cY9WDA)  
-- 💻 [**Web Demo** (Hosted on Google Cloud)](http://34.121.3.96:8080/)  
-- 📄 [**Project Page**](https://vyankateshd206.github.io/Linguistix/)  
+```bash
+# 1. Environment. For training, install the CUDA build instead:
+#    pip install torch --index-url https://download.pytorch.org/whl/cu128
+pip install -r Linguistix_website-main/requirements.txt
 
----
+# 2. Data pipeline: manifest, stratified split, speaker-disjoint split, confound report
+python Linguistix_website-main/training/prepare_data.py
 
-## 🤝 Contributions
+# 3. Classical benchmark (writes benchmarks.json and the jury's models)
+python Linguistix_website-main/training/train_classical.py --save-models pca_lda
 
-### **Shashank Parchure (B23CM1059)**
-- **Implemented**:  
-  - KNN with PCA  
-  - Bayesian Learning with Correlation-based Feature Selection  
-  - SVM with PCA  
-  - MLP with PCA  
-  - ANN with LDA  
-- **Responsible for**:  
-  - Report compilation  
-  - Spotlight video organization (content outline)  
-  - Deploying demo code on Google Cloud  
+# 4. Speaker encoder (~15 min on an RTX 4070)
+python Linguistix_website-main/training/train_encoder.py
 
-### **Atharva Honparkhe (B23EE1006)**
-- **Implemented**:  
-  - Decision Tree with PCA, LDA, and Ensemble Methods  
-  - GMM  
-- **Responsible for**:  
-  - Demo code creation  
-  - Report compilation  
+# 5. Gallery centroids and the 2D speaker map
+python Linguistix_website-main/training/build_gallery.py
 
-### **Vyankatesh Deshpande (B23CS1079)**
-- **Implemented**:  
-  - KNN with LDA  
-  - Bayesian Learning with LDA  
-  - SVM with Correlation-based Feature Selection  
-  - ANN with PCA  
-- **Responsible for**:  
-  - MFCC feature extraction  
-  - Project page implementation  
-  - Report compilation  
-  - Google Cloud exploration  
+# 6. Export for in-browser inference. Fails loudly if the graph disagrees
+#    with PyTorch by more than 1e-4.
+python Linguistix_website-main/training/export_onnx.py --verify
 
-### **Abhinash Roy (B23CS1003)**
-- **Implemented**:  
-  - KMeans Clustering with LDA  
-  - Decision Tree on raw data  
-  - CNN with PCA and LDA  
-- **Responsible for**:  
-  - Spotlight video creation  
+# 7. Frontend
+cd Linguistix_website-main/frontend && npm install && npm run build
 
-### **Namya Dhingra (B23CS1040)**
-- **Implemented**:  
-  - Decision Tree with UMAP and t-SNE  
-  - KMeans Clustering with PCA  
-- **Responsible for**:  
-  - Spotlight video presentation organization  
-  - Content writing  
+# 8. Serve
+cd Linguistix_website-main && python -m ml_website.app     # http://localhost:7860
+```
 
-### **Damarasingu Akshaya Sree (B23EE1085)**
-- **Implemented**:  
-  - KNN  
-  - Bayesian Learning with PCA  
-  - SVM with LDA  
-  - MLP with Correlation-based Feature Selection  
-  - ANN with Correlation-based Feature Selection  
-- **Responsible for**:  
-  - Spotlight video presentation organization  
-  - Content writing  
+## Layout
 
----
+```
+Linguistix_website-main/
+  ml_website/
+    app.py              Flask entry: JSON API + built SPA
+    api/routes.py       identify · enrol · gallery · verify · map · metrics · jury · explain
+    engine/
+      features.py       the only place audio becomes features
+      encoder.py        TDNN + AAM-Softmax, mel front-end inside the graph
+      gallery.py        enrolment store and cosine search
+      jury.py           multi-model consensus
+      explain.py        gradient saliency over the mel spectrogram
+    models/             checkpoints, benchmarks, manifest, ONNX graph
+  training/             prepare_data · train_classical · train_encoder · build_gallery · export_onnx
+  frontend/             Vite + React + TypeScript
+ANN/ SVM/ KNN/ …        research notebooks
+```
 
-## 📚 References
+## Notes on the interface
 
-- [NumPy Documentation](https://numpy.org/doc/)
-- [Scikit-learn Documentation](https://scikit-learn.org/stable/documentation.html)
-- [PyTorch Documentation](https://pytorch.org/docs/stable/index.html)
-- [Understanding Bootstrapping – Medium](https://medium.com/@wl8380/understanding-the-bootstrapping-process-in-machine-learning-a6372bf7b4e2)
-- [Ensemble Methods – Medium](https://medium.com/@shashank25.it/ensemble-methods-in-machine-learning-2d4cc7513c77)
+The design is built around the **voiceprint terrain** — the spectrogram as a 3D landscape that is
+the input meter while recording, the progress indicator while analysing, and the result afterwards,
+with saliency lifting the identifying ridges. Two themes, SCOPE and PRINT, render it differently:
+the magma colormap on a dark console, or grayscale ink density on paper, as a real sound
+spectrograph printed it.
+
+The **Map** renders all 2511 clips as an orbitable 3D point cloud of the encoder's embedding space.
+The **Lab** runs the encoder in your browser via ONNX Runtime, so degradation sliders respond
+instantly rather than queueing a request per frame against a free CPU tier. The mel front-end is
+baked into the exported graph so the browser and server cannot disagree about features;
+`export_onnx.py --verify` asserts they match to under 1e-4 before shipping.
+
+## Deployment
+
+Single Docker image on a Hugging Face Space: Node builds the frontend, Python serves it beside the
+API on port 7860. Enrolments are stored on the container filesystem and reset when the Space
+restarts; `/api/gallery` reports this rather than letting it surprise anyone.
+
+## Dataset
+
+[50-speaker recognition corpus](https://www.kaggle.com/datasets/vjcalling/speaker-recognition-audio-dataset)
+— 2511 WAV clips, 50 speakers, 41.4 hours. Note the dataset has no `Speaker_0022`: numbering runs to
+0050 while there are only 50 classes, so class index and numeric suffix diverge past index 21.
+
+## Resources
+
+- [Spotlight video](https://youtu.be/yORB3cY9WDA)
+- [Project page](https://vyankateshd206.github.io/Linguistix/)
+- Reports in [`Report/`](Report/)

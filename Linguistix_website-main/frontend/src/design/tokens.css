@@ -1,0 +1,334 @@
+/* SONAGRAPH — design tokens.
+ *
+ * The direction comes from the material history of this problem. Speaker
+ * identification began with the Kay Sonagraph (1946) and the Bell Labs
+ * "voiceprint" work of the 1960s, where a voice was analysed by printing it:
+ * frequency up the page, time across it, energy as ink density. That printed
+ * strip is the artifact this domain owns, so the interface is built out of it
+ * rather than out of generic dashboard furniture.
+ *
+ * Two themes, not a light/dark toggle. SCOPE and PRINT are the two ways a
+ * phonetician reads a voice — on the instrument, or on paper — and they render
+ * the spectrogram genuinely differently rather than just inverting colours.
+ *
+ * The accent system is the Ember ramp: silence is deep navy, energy climbs
+ * through steel blue and crosses into amber at its peak. Blue and amber are
+ * complementary, so data separates hard from the ground instead of competing
+ * with it. It encodes frequency energy and confidence, so it is not decoration
+ * — there is no separate "brand colour".
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Anybody:ital,wdth,wght@0,50..150,100..900;1,50..150,100..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* ---- type ------------------------------------------------------------ */
+  --font-display: 'Anybody', 'Arial Narrow', sans-serif;
+  --font-body: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --step--2: clamp(0.68rem, 0.66rem + 0.1vw, 0.74rem);
+  --step--1: clamp(0.8rem, 0.77rem + 0.15vw, 0.88rem);
+  --step-0: clamp(0.94rem, 0.9rem + 0.2vw, 1rem);
+  --step-1: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+  --step-2: clamp(1.5rem, 1.3rem + 1vw, 2.1rem);
+  --step-3: clamp(2rem, 1.6rem + 2vw, 3.2rem);
+  --step-4: clamp(2.8rem, 1.9rem + 4.5vw, 6rem);
+
+  /* ---- spacing: 4px base ----------------------------------------------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* Chamfered rather than rounded. This is an instrument, not a consumer app. */
+  --radius-sm: 2px;
+  --radius: 3px;
+  --radius-lg: 5px;
+
+  --rail-width: 15rem;
+  --measure: 68ch;
+
+  /* ---- the Verdant ramp ------------------------------------------------ */
+  /* Shared by both themes: these encode data, so they must not change meaning
+   * when the surrounding surface does. Silence is deep navy, energy climbs
+   * through steel and crosses into amber at the top. --ramp-3 is the crossover
+   * and is deliberately desaturated, so the turn from cool to warm reads as
+   * heat arriving rather than as two palettes meeting. Perceptually ordered:
+   * a brighter pixel always means more energy. */
+  --ramp-0: #0a1428;
+  --ramp-1: #1d4e78;
+  --ramp-2: #4b87a8;
+  --ramp-3: #9ab4a8;
+  --ramp-4: #e8944a;
+  --ramp-5: #fbe3b0;
+
+  --ramp: linear-gradient(
+    90deg,
+    var(--ramp-0) 0%,
+    var(--ramp-1) 20%,
+    var(--ramp-2) 40%,
+    var(--ramp-3) 60%,
+    var(--ramp-4) 80%,
+    var(--ramp-5) 100%
+  );
+
+  --z-rail: 20;
+  --z-overlay: 40;
+  --z-toast: 60;
+
+  --motion-fast: 140ms;
+  --motion: 240ms;
+  --motion-slow: 520ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+/* ---- SCOPE: the instrument (default) ----------------------------------- */
+
+:root,
+:root[data-theme='scope'] {
+  color-scheme: dark;
+
+  --bg: #070d18;
+  /* Surfaces are translucent so the living ground shows faintly through them.
+   * That is what makes a panel read as an object resting on something, rather
+   * than a hole cut out of a flat field. */
+  --panel: rgba(15, 26, 43, 0.86);
+  --panel-solid: #0f1a2b;
+  --raised: #17253c;
+  --rail: #0a1220;
+  --rule: #22344e;
+  --rule-strong: #365070;
+
+  /* The ground. Four stops of deep navy, composited as static CSS radial
+   * gradients rather than a shader — a soft colour wash does not need a GPU,
+   * and the shader this replaced was costing the entire frame budget. */
+  --ground-0: #070d18;
+  --ground-1: #0e1a2e;
+  --ground-2: #163049;
+  --ground-3: #1f4a6b;
+
+  --grain-opacity: 0.035;
+  --vignette: radial-gradient(ellipse at 50% 35%, transparent 42%, rgba(0, 0, 0, 0.55) 100%);
+
+  --ink: #eceae4;
+  --ink-dim: #a4b1c4;
+  --ink-faint: #6d7d94;
+
+  /* Rose rather than a warmer red: the accent is now amber, and at #f2555a the
+   * two sat only 30 degrees apart in hue at near-identical lightness. This
+   * widens the gap to 38 degrees while still clearing 4.5:1 on a panel. Shape
+   * and label carry the meaning too — colour is never the only indicator. */
+  --signal: #f43f5e;
+  --accent: var(--ramp-4);
+  --accent-soft: rgba(232, 148, 74, 0.15);
+
+  --ok: var(--ramp-4);
+  --warn: #e3b341;
+  --bad: var(--signal);
+
+  --grid-line: rgba(200, 224, 255, 0.055);
+  --spectro-floor: #060c16;
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.03), 0 12px 32px rgba(0, 0, 0, 0.55);
+  --focus: var(--ramp-4);
+}
+
+/* ---- PRINT: ink on paper ------------------------------------------------ */
+
+:root[data-theme='print'] {
+  color-scheme: light;
+
+  --bg: #f1eee7;
+  --panel: rgba(233, 229, 219, 0.78);
+  --panel-solid: #e9e5db;
+  --raised: rgba(247, 245, 240, 0.88);
+  --rail: rgba(236, 231, 220, 0.9);
+  --rule: #cfc9bc;
+  --rule-strong: #a9a294;
+
+  /* Paper stays stock: the same four-stop structure in warm neutrals, with
+   * the washes kept far weaker than the dark theme's. */
+  --ground-0: #f3f0e9;
+  --ground-1: #ece6d9;
+  --ground-2: #e6ddcb;
+  --ground-3: #ded4c2;
+
+  --grain-opacity: 0.045;
+  --vignette: radial-gradient(ellipse at 50% 35%, transparent 55%, rgba(90, 78, 60, 0.16) 100%);
+
+  --ink: #14120f;
+  --ink-dim: #55503f;
+  --ink-faint: #837c6a;
+
+  --signal: #c4302b;
+  --accent: #1d4e78;
+  --accent-soft: rgba(29, 78, 120, 0.12);
+
+  --ok: #1d4e78;
+  --warn: #9a5b12;
+  --bad: var(--signal);
+
+  --grid-line: rgba(20, 18, 15, 0.07);
+  /* In PRINT the spectrogram is grayscale ink density, the way a real sonagram
+   * was printed. Canvas code reads this flag rather than guessing from --bg. */
+  --spectro-floor: #f1eee7;
+  --shadow: 0 1px 2px rgba(20, 18, 15, 0.1), 0 8px 24px rgba(20, 18, 15, 0.08);
+  --focus: #1d4e78;
+}
+
+:root[data-theme='print'] {
+  --spectro-mode: 'ink';
+}
+:root[data-theme='scope'],
+:root:not([data-theme='print']) {
+  --spectro-mode: 'colour';
+}
+
+/* ---- base --------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  /* The ground: three offset radial washes over a base colour. Composited once
+   * by the browser and never repainted, where the shader this replaces was
+   * evaluating 480 sin() per pixel per frame on every route. */
+  background-color: var(--ground-0);
+  background-image:
+    radial-gradient(60rem 45rem at 8% 92%, var(--ground-3) 0%, transparent 62%),
+    radial-gradient(55rem 40rem at 96% 4%, var(--ground-2) 0%, transparent 58%),
+    radial-gradient(70rem 50rem at 55% 45%, var(--ground-1) 0%, transparent 70%);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--motion) var(--ease), color var(--motion) var(--ease);
+}
+
+/* Every number in this interface is a measurement that updates in place.
+ * Tabular figures stop readouts jittering as digits change width. */
+.num,
+.mono,
+code,
+kbd,
+samp {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1, 'zero' 1;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+/* The width axis is the memorable typographic move here: headlines run wide,
+ * labels run condensed. Restricted to display type so it stays disciplined. */
+h1 {
+  font-size: var(--step-4);
+  font-variation-settings: 'wdth' 128;
+  text-transform: uppercase;
+}
+
+h2 {
+  font-size: var(--step-2);
+  font-variation-settings: 'wdth' 112;
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-variation-settings: 'wdth' 74;
+  font-weight: 600;
+  font-size: var(--step--2);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ink-faint);
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 0.2em;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Visible keyboard focus, everywhere. */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-2);
+  top: -3rem;
+  z-index: var(--z-toast);
+  padding: var(--space-2) var(--space-4);
+  background: var(--raised);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  transition: top var(--motion-fast) var(--ease);
+}
+.skip-link:focus {
+  top: var(--space-2);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Wide content scrolls inside its own container; the page body never does. */
+.scroll-x {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

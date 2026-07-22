@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en" data-theme="scope">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Linguistix — Sonagraph</title>
+    <meta
+      name="description"
+      content="An open-set speaker recognition instrument. Record a voice, enrol it, and watch a neural encoder place it among fifty known speakers."
+    />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script>
+      // Apply the stored theme before first paint so the page never flashes the
+      // wrong one. SCOPE is the default because a live spectrogram needs a dark
+      // ground to read.
+      try {
+        var stored = localStorage.getItem('linguistix-theme');
+        if (stored === 'print' || stored === 'scope') {
+          document.documentElement.setAttribute('data-theme', stored);
+        }
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      Linguistix needs JavaScript: it records audio, draws spectrograms, and runs a neural
+      encoder in your browser. The JSON API at <code>/api/health</code> works without it.
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

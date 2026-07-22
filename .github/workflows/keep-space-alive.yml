@@ -1,0 +1,34 @@
+name: Keep HF Space alive
+
+# Free cpu-basic Spaces are paused after 48h of inactivity and then stay down
+# until the owner restarts them. Running every 6h keeps the inactivity timer
+# well clear of that threshold even if GitHub delays or drops a scheduled run
+# (cron here is best-effort, not guaranteed).
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+# Two runs at once could issue overlapping restarts.
+concurrency:
+  group: keep-space-alive
+  cancel-in-progress: false
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install --disable-pip-version-check huggingface_hub
+
+      - name: Ping or restart the Space
+        env:
+          HF_SPACE_ID: ${{ vars.HF_SPACE_ID }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python .github/scripts/keep_space_alive.py

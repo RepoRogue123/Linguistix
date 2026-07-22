@@ -1,2 +1,38 @@
-# Local/raw datasets
+# Local/raw datasets (4.7 GB of source WAVs)
 archive/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# Build output. The Docker image runs `npm run build` itself, so committing the
+# bundle would be 27 MB of duplicated artifact that goes stale on every edit.
+Linguistix_website-main/ml_website/static/dist/
+
+# Copied out of ml_website/models by training/export_onnx.py, and again by the
+# Dockerfile at build time. Committing it duplicates 8.5 MB for no reason.
+Linguistix_website-main/frontend/public/models/
+
+# Runtime state, not source. Enrolments land here locally; the container points
+# LINGUISTIX_GALLERY_DB at /tmp instead.
+Linguistix_website-main/ml_website/models/gallery.sqlite3
+
+# Written by training/build_gallery.py and never read at serve time — the API
+# only needs gallery_reference.npz and speaker_map.json.
+Linguistix_website-main/ml_website/models/embeddings.npz
+
+# Uploads are written per request and removed in a finally block.
+Linguistix_website-main/ml_website/uploads/*
+!Linguistix_website-main/ml_website/uploads/.gitkeep
+
+# Editors / OS
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/

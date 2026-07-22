@@ -1,9 +1,27 @@
+# Runtime dependencies for the deployed server.
+#
+# The CPU wheel index is not optional. Plain `torch` on Linux resolves to the
+# CUDA build, which pulls in gigabytes of NVIDIA runtime that a CPU-only Space
+# can never use and that overruns the image size limit.
+--extra-index-url https://download.pytorch.org/whl/cpu
+
 setuptools>=65.5.0
-Flask
-torch
-numpy
-librosa
-SoundFile
-matplotlib
-scikit-learn
-gunicorn==20.1.0
+Flask==3.0.3
+gunicorn==22.0.0
+
+torch==2.4.1+cpu
+
+numpy>=1.26,<2.2
+scipy>=1.11
+# Must stay compatible with whatever pickled models/classical_models.joblib;
+# a major-version jump will make the model jury fail to unpickle.
+scikit-learn>=1.5
+joblib>=1.4
+
+librosa>=0.10.2
+soundfile>=0.12.1
+soxr>=0.4
+
+# Deliberately absent: matplotlib (only used offline to render learning curves)
+# and torchaudio (the mel front-end is plain conv ops in engine/encoder.py, so
+# no extra audio backend is needed at serve time).
