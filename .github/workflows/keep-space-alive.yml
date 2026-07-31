@@ -30,5 +30,7 @@ jobs:
       - name: Ping or restart the Space
         env:
           HF_SPACE_ID: ${{ vars.HF_SPACE_ID }}
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          # The script reads the env var HF_TOKEN; the repo secret holding the
+          # Hugging Face write token is named HF_SECRET, so source it from there.
+          HF_TOKEN: ${{ secrets.HF_SECRET }}
         run: python .github/scripts/keep_space_alive.py
